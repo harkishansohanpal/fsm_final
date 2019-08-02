@@ -11,17 +11,21 @@ function transform(stateData, eventData){
 		for (var beh in stateData[state].behaviourArray){
 			
 			let specificBehaviour = stateData[state].behaviourArray[beh].behaviourType;
-			behArray.push(specificBehaviour);
+			behArray.push({
+				behaviour: specificBehaviour,
+				//time: stateData[state].behaviourArray[beh].time
+				time: 100
+			});
 			
 			if (specificBehaviour == "Stop" && !stopChecked){
 				stopChecked = true;
 				endStates.push(String.fromCharCode(65 + stateData[state]._id));
 			}
-				
+							
 		}
 		
 		verticesArray.push({name : String.fromCharCode(65 + stateData[state]._id),
-				behaviours : behArray});
+										robotActions : behArray});
 	}
 	
 	
@@ -56,27 +60,26 @@ function transform(stateData, eventData){
 		let to = String.fromCharCode(65 + eventData[event].toState);
 		
 		edgesArray.push({
-			event: {
-				name: from + c,
-				input: input
-			},
-			fromState: from,
-			toState: to
-			
+						event: {
+										name: from + c,
+										input: input
+						},
+						fromState: from,
+						toState: to
+						
 		})
-	
-		
+					
 	}
 	
 	var jsonOutput = {
-		
-		vertices: verticesArray,
-		edges: edgesArray,
-		startState: String.fromCharCode(65 + stateData[0]["_id"]),
-		endState: endStates
-		
+					
+					vertices: verticesArray,
+					edges: edgesArray,
+					startState: String.fromCharCode(65 + stateData[0]["_id"]),
+					endStates: endStates
+					
 	}
 	
 	return jsonOutput;
-	
+                
 }
